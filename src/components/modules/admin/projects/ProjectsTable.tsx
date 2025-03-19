@@ -23,7 +23,7 @@ import { deleteListingByAdmin } from "@/services/AdminService";
 import { toast } from "sonner";
 import DeleteConfirmationModal from "@/components/ui/core/DeleteConfirmationModal";
 import Link from "next/link";
-import { getAllProjects } from "@/services/ProjectService";
+import { deleteProject, getAllProjects } from "@/services/ProjectService";
 
 const ProjectsTable = () => {
   const router = useRouter();
@@ -90,7 +90,7 @@ const ProjectsTable = () => {
   const handleDeleteConfirm = async () => {
     try {
       if (selectedId) {
-        const res = await deleteListingByAdmin(selectedId);
+        const res = await deleteProject(selectedId);
         console.log(res);
         if (res.success) {
           fetchProjects();
@@ -108,6 +108,7 @@ const ProjectsTable = () => {
   const columns: ColumnDef<IProject>[] = [
     { accessorKey: "title", header: "Title" },
     { accessorKey: "service", header: "Service" },
+    { accessorKey: "briefDescription", header: "Brief Description" },
     {
       accessorKey: "action",
       header: "Action",
@@ -120,7 +121,7 @@ const ProjectsTable = () => {
           >
             <Trash className="w-5 h-5" />
           </button>
-          <Link href={`/listings/${row.original?._id}`}>
+          <Link href={`/admin/projects/${row.original?._id}`}>
             <button className="text-green-500" title="Update">
               <Edit className="w-5 h-5" />
             </button>
@@ -139,7 +140,7 @@ const ProjectsTable = () => {
   return (
     <div className="space-y-4 p-4">
       {/* Search & Filter Inputs */}
-      <div className="flex gap-2">
+      <div className="flex gap-2 max-w-md">
         <Input
           placeholder="Search with category, location & title"
           value={search}

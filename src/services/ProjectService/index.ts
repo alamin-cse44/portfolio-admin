@@ -73,6 +73,33 @@ export const getSingleProject = async (id: string) => {
   }
 };
 
+
+
+// Update project
+
+export const updateProject = async (id: string, data: FieldValues) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: (await cookies()).get("accessToken")!.value,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+
+    revalidateTag("PROJECTS");
+
+    return res.json();
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+
 // Delete project
 export const deleteProject = async (id: string) => {
   try {
