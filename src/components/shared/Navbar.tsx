@@ -36,8 +36,6 @@ const Navbar = () => {
   const menuItems = [
     { title: "Home", link: "/" },
     { title: "Dashboard", link: "/profile" },
-    { title: "All Listings", link: "/all-listings" },
-    { title: "About Us", link: "/about" },
   ];
 
   return (
@@ -88,13 +86,7 @@ const Navbar = () => {
 
           {/* Right Section - Cart, Bell, Login, Avatar */}
           <div className="flex items-center space-x-4">
-            <div className="relative hidden md:block">
-              <Input
-                type="text"
-                placeholder="Search"
-                className="w-40 md:w-52"
-              />
-            </div>
+            
 
             {!user ? (
               <Link href={"/login"}>
@@ -103,12 +95,6 @@ const Navbar = () => {
             ) : (
               <>
                 <div className="relative">
-                  <ShoppingCart className="text-gray-600 cursor-pointer" />
-                  {cartQuantity > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-1.5 py-0.5">
-                      {cartQuantity}
-                    </span>
-                  )}
                 </div>
                 <Popover>
                   <PopoverTrigger>

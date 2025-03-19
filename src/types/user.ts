@@ -4,7 +4,7 @@ export interface IUser {
   phone: string;
   userEmail: string;
   isBlocked?: boolean;
-  userRole: "landLord" | "tenant" | "admin";
+  userRole: "admin" | "user";
   image?: string;
   iat?: number;
   exp?: number;
@@ -16,7 +16,7 @@ export interface IUserDetails {
   email: string;
   phone: string;
   password: string;
-  role: "admin" | "landLord" | "tenant";
+  role: "admin" | "user";
   isBlocked: boolean;
   image?: string;
   createdAt: string;

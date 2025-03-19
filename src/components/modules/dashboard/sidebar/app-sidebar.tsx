@@ -35,12 +35,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         isActive: true,
       },
       {
-        title: "All Listings",
-        url: "/listings",
-        icon: ListCollapse,
-        isActive: true,
-      },
-      {
         title: "Projects",
         url: "/admin/projects",
         icon: BookDown,
@@ -72,38 +66,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       //   ],
       // },
     ],
-    navLandlord: [
-      {
-        title: "Dashboard",
-        url: "/profile",
-        icon: SquareTerminal,
-        isActive: true,
-      },
-      {
-        title: "My Listings",
-        url: "/landLord/my-listings",
-        icon: ListCollapse,
-        isActive: true,
-      },
-      {
-        title: "Rental Requests",
-        url: "/landLord/renting-requests",
-        icon: BookDown,
-        isActive: true,
-      },
-    ],
+    
 
-    navTenanat: [
+    navUser: [
       {
         title: "Dashboard",
         url: "/profile",
         icon: SquareTerminal,
-        isActive: true,
-      },
-      {
-        title: "Rental Requests",
-        url: "/tenant-requests",
-        icon: BookDown,
         isActive: true,
       },
     ],
@@ -119,7 +88,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   {/* <Logo /> */}
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <h2 className="font-bold text-xl">BasaFinder</h2>
+                  <h2 className="font-bold text-xl">My Portfolio</h2>
                 </div>
               </Link>
             </SidebarMenuButton>
@@ -128,8 +97,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         {user?.userRole === "admin" && <NavMain items={data.navMain} />}
-        {user?.userRole === "landLord" && <NavMain items={data.navLandlord} />}
-        {user?.userRole === "tenant" && <NavMain items={data.navTenanat} />}
+        {user?.userRole === "user" && <NavMain items={data.navUser} />}
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

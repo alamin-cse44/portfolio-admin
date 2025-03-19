@@ -24,7 +24,7 @@ const HeroSection = () => {
           Good Service is our passion
         </h3>
         <h1 className="text-4xl md:text-6xl font-bold mt-2">
-          Awesome apartment Villa
+          Awesome Projects
         </h1>
         <div className="w-16 h-1 bg-yellow-400 mt-3"></div>
         <p className="mt-4 text-lg md:text-xl max-w-2xl">
@@ -32,9 +32,9 @@ const HeroSection = () => {
           we have the right perspective in life, life will always be beautiful!
         </p>
 
-        <Link href={"/all-listings"}>
+        <Link href={"/admin/projects"}>
           <Button className="text-lg font-semibold mt-6 shadow-lg rounded-full p-6">
-            ALL LISTINGS
+            ALL Projects
           </Button>
         </Link>
       </div>
