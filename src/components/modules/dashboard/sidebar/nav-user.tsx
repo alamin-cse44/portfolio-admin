@@ -30,11 +30,13 @@ export function NavUser() {
 
   const handleLogout = () => {
     logout();
+    
     setIsLoading(true);
+    // router.push("/login");
 
-    if (protectedRoutes.some((route) => pathname.match(route))) {
-      router.push("/");
-    }
+    // if (protectedRoutes.some((route) => pathname.match(route))) {
+    //   router.push("/login");
+    // }
   };
 
   return (

@@ -3,7 +3,7 @@ import Navbar from "@/components/shared/Navbar";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Basa Finder | Home",
+  title: "Portfolio | Admin",
   description: "Find Your Dream RentalComfort, convenience, and affordability all in one place.",
 };
 

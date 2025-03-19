@@ -11,7 +11,7 @@ const roboto = Roboto({
 })
 
 export const metadata: Metadata = {
-  title: "Basa Finder",
+  title: "Portfolio | Admin",
   description: "Find Your Dream RentalComfort, convenience, and affordability all in one place.",
 };
 

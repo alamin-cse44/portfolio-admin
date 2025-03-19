@@ -1,5 +1,5 @@
 import Shell from "@/components/ui/core/Shell";
-import HeroSection from "../(WithCommonLayout)/home/HeroSection";
+import HeroSection from "./home/HeroSection";
 
 const HomePage = () => {
   return (
