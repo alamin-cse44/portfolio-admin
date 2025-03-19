@@ -10,7 +10,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import {
+  FieldValues,
+  SubmitHandler,
+  useFieldArray,
+  useForm,
+} from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import NMImageUploader from "@/components/ui/core/NMImageUploader";
 import { useState } from "react";
@@ -29,18 +34,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { listingCategory } from "@/types/object";
+import { Plus } from "lucide-react";
 
 export default function CreateProjectForm() {
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
   const [imagePreview, setImagePreview] = useState<string[] | []>([]);
   const form = useForm({
-    resolver: zodResolver(listingValidationSchema),
+    // resolver: zodResolver(listingValidationSchema),
   });
 
   const router = useRouter();
 
   const { user, setIsLoading } = useUser();
-  console.log("user", user);
 
   const {
     formState: { isSubmitting },
@@ -78,7 +83,18 @@ export default function CreateProjectForm() {
     }
   };
 
+  const { append: appendTech, fields: techFields } = useFieldArray({
+    control: form.control,
+    name: "technologies",
+  });
+
+  const addTech = () => {
+    appendTech({ value: "" });
+  };
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log("data", data);
+
     if (imageFiles.length === 0) {
       toast.error("Please upload at least one image.");
       return;
@@ -111,15 +127,11 @@ export default function CreateProjectForm() {
 
       if (res.success) {
         toast.success(res.message);
-        if (user?.userRole === "admin") {
-          router.push("/listings");
-        } else {
-          router.push("/landLord/my-listings");
-        }
+        router.push("/admin/projects");
       }
     } catch (err) {
       console.error("Error submitting form:", err);
-      toast.error("Failed to create listing");
+      toast.error("Failed to create project");
     } finally {
       setIsLoading(false);
     }
@@ -128,7 +140,7 @@ export default function CreateProjectForm() {
   return (
     <div className="flex items-center justify-center">
       <div className="border-2 border-gray-300 rounded-xl flex-grow max-w-2xl p-5 my-5">
-        <div className="flex items-center space-x-4 mb-5">
+        <div className="flex items-center justify-center space-x-4 mb-5">
           {/* Logo */}
           <div>
             <h1 className="text-xl font-semibold">Create Your Project</h1>
@@ -150,6 +162,7 @@ export default function CreateProjectForm() {
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="bedrooms"
@@ -192,35 +205,40 @@ export default function CreateProjectForm() {
               />
             </div>
 
-            <div className="mt-4">
-              <FormField
-                control={form.control}
-                name="category"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Category</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select Listing Category" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {listingCategory.map((category) => (
-                          <SelectItem key={category?.id} value={category?.name}>
-                            {category?.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+            <div>
+              <div className="flex justify-between items-center border-t border-b py-3 my-5">
+                <p className="text-primary font-bold text-xl">
+                  Used Technologies
+                </p>
+                <Button
+                  variant="outline"
+                  className="size-10"
+                  onClick={addTech}
+                  type="button"
+                >
+                  <Plus className="text-primary" />
+                </Button>
+              </div>
 
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                {techFields.map((techField, index) => (
+                  <div key={techField.id}>
+                    <FormField
+                      control={form.control}
+                      name={`technologies.${index}.value`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Technology {index + 1}</FormLabel>
+                          <FormControl>
+                            <Input {...field} value={field.value || ""} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div className="mt-4">
