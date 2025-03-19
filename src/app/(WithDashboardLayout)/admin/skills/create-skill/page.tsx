@@ -20,6 +20,7 @@ import NMImageUploader from "@/components/ui/core/NMImageUploader";
 import ImagePreviewer from "@/components/ui/core/NMImageUploader/ImagePreviewer";
 import { useRouter } from "next/navigation";
 import Shell from "@/components/ui/core/Shell";
+import { createSkill } from "@/services/SkillService";
 
 const SkillForm = () => {
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
@@ -34,11 +35,10 @@ const SkillForm = () => {
     formState: { isSubmitting },
   } = form;
 
-
   // Cloudinary Upload Function
   const uploadImagesToCloudinary = async () => {
     const cloudName = `${process.env.NEXT_PUBLIC_CLOUD_NAME}`;
-    const uploadPreset = "first_preset_name"; 
+    const uploadPreset = "first_preset_name";
     const urls = [];
 
     for (const file of imageFiles) {
@@ -79,7 +79,7 @@ const SkillForm = () => {
         ...data,
         icon: uploadedImages[0].url,
       };
-      const res = await registerUser(modifiedData);
+      const res = await createSkill(modifiedData);
       console.log("res", res);
       if (res.success) {
         toast.success(res?.message);

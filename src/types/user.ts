@@ -27,7 +27,7 @@ export interface IUserDetails {
 export interface ISkillsDetails {
   _id: string;
   title: string;
-  image?: string;
+  icon?: string;
   createdAt: string;
   updatedAt: string;
   __v: number;

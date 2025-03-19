@@ -74,7 +74,6 @@ export const getSingleSkill = async (id: string) => {
   }
 };
 
-
 // update skill
 export const updateSkill = async (
   id: string,
@@ -106,3 +105,25 @@ export const updateSkill = async (
   }
 };
 
+export const deleteSkill = async (id: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/skills/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${
+            (await cookies()).get("accessToken")!.value
+          }`,
+        },
+      }
+    );
+
+    const result = await res.json();
+
+    revalidateTag("SKILLS");
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};

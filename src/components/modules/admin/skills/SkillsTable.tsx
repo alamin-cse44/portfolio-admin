@@ -19,13 +19,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ISkillsDetails } from "@/types";
-import {
-  blockUser,
-  updateUserRole,
-} from "@/services/AdminService";
+import {  updateUserRole } from "@/services/AdminService";
 import { toast } from "sonner";
 import DeleteConfirmationModal from "@/components/ui/core/DeleteConfirmationModal";
-import { getAllSkills } from "@/services/SkillService";
+import { deleteSkill, getAllSkills } from "@/services/SkillService";
+import Image from "next/image";
 
 const SkillsTable = () => {
   const router = useRouter();
@@ -88,7 +86,7 @@ const SkillsTable = () => {
   const handleDeleteConfirm = async () => {
     try {
       if (selectedId) {
-        const res = await blockUser(selectedId);
+        const res = await deleteSkill(selectedId);
         console.log(res);
         if (res.success) {
           fetchSkills();
@@ -127,6 +125,20 @@ const SkillsTable = () => {
 
   const columns: ColumnDef<ISkillsDetails>[] = [
     { accessorKey: "title", header: "Skill" },
+
+    {
+      accessorKey: "icon",
+      header: "Icon",
+      cell: ({ row }) => (
+        <Image
+          src={row.original?.icon || ""}
+          alt={row.original?.title}
+          width={50}
+          height={50}
+          className="rounded-t-lg"
+        />
+      ),
+    },
 
     {
       accessorKey: "action",
