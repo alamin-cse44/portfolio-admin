@@ -1,3 +1,4 @@
+import ProjectsTable from "@/components/modules/admin/projects/ProjectsTable";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import Link from "next/link";
@@ -12,7 +13,7 @@ const Projects = () => {
           </Button>
         </Link>
       </div>
-      {/* <ListingsTable /> */}
+      <ProjectsTable />
     </div>
   );
 };

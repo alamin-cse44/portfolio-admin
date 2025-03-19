@@ -23,24 +23,17 @@ import ImagePreviewer from "@/components/ui/core/NMImageUploader/ImagePreviewer"
 import { toast } from "sonner";
 import { useUser } from "@/context/UserContext";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { listingValidationSchema } from "@/components/modules/listing/ListingValidation";
 import { createListing } from "@/services/ListingService";
 import { useRouter } from "next/navigation";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { listingCategory } from "@/types/object";
 import { Plus } from "lucide-react";
+import { projectValidationSchema } from "@/components/modules/admin/projects/ProjectValidation";
+import { createProject } from "@/services/ProjectService";
 
 export default function CreateProjectForm() {
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
   const [imagePreview, setImagePreview] = useState<string[] | []>([]);
   const form = useForm({
-    // resolver: zodResolver(listingValidationSchema),
+    // resolver: zodResolver(projectValidationSchema),
   });
 
   const router = useRouter();
@@ -112,16 +105,15 @@ export default function CreateProjectForm() {
       // Prepare modified data
       const modifiedData = {
         ...data,
-        landLord: user?.userId,
-        price: Number(data?.price),
-        bedrooms: Number(data?.bedrooms),
-        image: uploadedImages,
+        user: user?.userId,
+        technologies: data?.technologies,
+        images: uploadedImages,
       };
 
       // console.log("modifiedData", modifiedData);
 
       // Send data to backend
-      const res = await createListing(modifiedData);
+      const res = await createProject(modifiedData);
 
       console.log(res);
 
@@ -151,10 +143,10 @@ export default function CreateProjectForm() {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <FormField
                 control={form.control}
-                name="apartmentType"
+                name="title"
                 render={({ field }) => (
                   <FormItem className="mb-3">
-                    <FormLabel>Apartment Type</FormLabel>
+                    <FormLabel>Project Title</FormLabel>
                     <FormControl>
                       <Input {...field} value={field.value || ""} />
                     </FormControl>
@@ -165,39 +157,36 @@ export default function CreateProjectForm() {
 
               <FormField
                 control={form.control}
-                name="bedrooms"
+                name="service"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Bedroom Quantities</FormLabel>
+                    <FormLabel>Service</FormLabel>
                     <FormControl>
-                      <Input {...field} value={field.value || ""} />
+                      <Input
+                        placeholder="Web/Mobile app service"
+                        {...field}
+                        value={field.value || ""}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+            </div>
 
+            <div className="mt-4">
               <FormField
                 control={form.control}
-                name="location"
+                name="briefDescription"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Location</FormLabel>
+                    <FormLabel>Brief Description</FormLabel>
                     <FormControl>
-                      <Input {...field} value={field.value || ""} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="price"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Price</FormLabel>
-                    <FormControl>
-                      <Input {...field} value={field.value || ""} />
+                      <Textarea
+                        className="h-16"
+                        {...field}
+                        value={field.value || ""}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

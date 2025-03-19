@@ -1,25 +1,22 @@
 "use server";
 
-import { IRentalRequest } from "@/types";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
+import { FieldValues } from "react-hook-form";
 
-// create category
-export const createRentingRequest = async (data: IRentalRequest) => {
+// create PROJECT
+export const createProject = async (data: FieldValues) => {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/tenants/requests`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: (await cookies()).get("accessToken")!.value,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects`, {
+      method: "POST",
+      headers: {
+        Authorization: (await cookies()).get("accessToken")!.value,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
-    revalidateTag("RENTING");
+    revalidateTag("PROJECTS");
 
     return res.json();
   } catch (error: any) {
@@ -27,14 +24,14 @@ export const createRentingRequest = async (data: IRentalRequest) => {
   }
 };
 
-//get all RENTAL REQUESTS BY TENANT
-export const getAllMyRequests = async (query: any) => {
+//get all projects
+export const getAllProjects = async (query: any) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/tenants/requests?${query}`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/projects?${query}`,
       {
         next: {
-          tags: ["RENTING"],
+          tags: ["PROJECTS"],
         },
         method: "GET",
         headers: {
@@ -52,55 +49,23 @@ export const getAllMyRequests = async (query: any) => {
   }
 };
 
-//get all RENTAL REQUESTS BY landlord
-export const getAllTenantRequests = async (query: any) => {
+// get single project
+export const getSingleProject = async (id: string) => {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/landlords/requests?${query}`,
+    const user = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`,
       {
         next: {
-          tags: ["RENTING"],
+          tags: ["PROJECTS"],
         },
         method: "GET",
         headers: {
-          Authorization: `Bearer ${
-            (await cookies()).get("accessToken")!.value
-          }`,
-          "Content-Type": "application/json",
+          "Content-type": "application/json",
         },
       }
     );
 
-    return res.json();
-  } catch (error: any) {
-    return Error(error);
-  }
-};
-
-// update renatl status
-export const updateRentalStatus = async (
-  id: string,
-  status: { rentalStatus: string }
-) => {
-  console.log("server role", status);
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/landlords/requests/${id}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${
-            (await cookies()).get("accessToken")!.value
-          }`,
-        },
-        body: JSON.stringify(status),
-      }
-    );
-
-    const result = await res.json();
-
-    revalidateTag("RENTING");
+    const result = await user.json();
 
     return result;
   } catch (error: any) {
@@ -108,27 +73,26 @@ export const updateRentalStatus = async (
   }
 };
 
+// Delete project
+export const deleteProject = async (id: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${
+            (await cookies()).get("accessToken")!.value
+          }`,
+        },
+      }
+    );
 
+    const result = await res.json();
 
-// create payment
-export const createRentingPayment = async (data: IRentalRequest) => {
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API}/payments`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: (await cookies()).get("accessToken")!.value,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
-  
-      revalidateTag("RENTING");
-  
-      return res.json();
-    } catch (error: any) {
-      return Error(error);
-    }
-  };
+    revalidateTag("PROJECTS");
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
