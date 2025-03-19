@@ -119,7 +119,7 @@ const SkillForm = () => {
 
             <FormField
               control={form.control}
-              name="name"
+              name="title"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Skill Name</FormLabel>
