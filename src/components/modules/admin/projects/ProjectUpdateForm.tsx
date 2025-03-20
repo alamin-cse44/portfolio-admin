@@ -23,13 +23,11 @@ import ImagePreviewer from "@/components/ui/core/NMImageUploader/ImagePreviewer"
 import { toast } from "sonner";
 import { useUser } from "@/context/UserContext";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createListing } from "@/services/ListingService";
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import { projectValidationSchema } from "@/components/modules/admin/projects/ProjectValidation";
 import { createProject, updateProject } from "@/services/ProjectService";
 import { IProject } from "@/types";
-
 
 export default function UpdateProjectForm({ project }: { project: IProject }) {
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
@@ -103,8 +101,10 @@ export default function UpdateProjectForm({ project }: { project: IProject }) {
       const modifiedData = {
         ...data,
         user: user?.userId,
-        technologies: data?.technologies.length ? data?.technologies : project?.technologies,
-        images: uploadedImages.length? uploadedImages : project?.images,
+        technologies: data?.technologies.length
+          ? data?.technologies
+          : project?.technologies,
+        images: uploadedImages.length ? uploadedImages : project?.images,
       };
 
       // console.log("modifiedData", modifiedData);
@@ -145,7 +145,11 @@ export default function UpdateProjectForm({ project }: { project: IProject }) {
                   <FormItem className="mb-3">
                     <FormLabel>Project Title</FormLabel>
                     <FormControl>
-                      <Input placeholder={project?.title} {...field} value={field.value || ""} />
+                      <Input
+                        placeholder={project?.title}
+                        {...field}
+                        value={field.value || ""}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -161,6 +165,42 @@ export default function UpdateProjectForm({ project }: { project: IProject }) {
                     <FormControl>
                       <Input
                         placeholder={project?.service}
+                        {...field}
+                        value={field.value || ""}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Status</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={project?.status}
+                        {...field}
+                        value={field.value || ""}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="live"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Live Link</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={project?.live}
                         {...field}
                         value={field.value || ""}
                       />
@@ -226,7 +266,6 @@ export default function UpdateProjectForm({ project }: { project: IProject }) {
                   </div>
                 ))}
               </div>
-              
             </div>
 
             <div className="mt-4">

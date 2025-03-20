@@ -6,6 +6,8 @@ export interface IProject {
   user: IUserDetails;
   briefDescription: string;
   service: string;
+  status: string;
+  live: string;
   description: string;
   images: { url: string }[];
   technologies: { value: string }[];

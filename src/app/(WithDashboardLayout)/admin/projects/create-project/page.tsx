@@ -23,7 +23,6 @@ import ImagePreviewer from "@/components/ui/core/NMImageUploader/ImagePreviewer"
 import { toast } from "sonner";
 import { useUser } from "@/context/UserContext";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createListing } from "@/services/ListingService";
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import { projectValidationSchema } from "@/components/modules/admin/projects/ProjectValidation";
@@ -164,6 +163,42 @@ export default function CreateProjectForm() {
                     <FormControl>
                       <Input
                         placeholder="Web/Mobile app service"
+                        {...field}
+                        value={field.value || ""}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Status</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Current / old"
+                        {...field}
+                        value={field.value || ""}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="live"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Live Link</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="project_live_url"
                         {...field}
                         value={field.value || ""}
                       />
