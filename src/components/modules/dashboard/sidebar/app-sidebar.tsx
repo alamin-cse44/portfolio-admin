@@ -46,6 +46,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         icon: BookDown,
         isActive: true,
       },
+      {
+        title: "Blogs",
+        url: "/admin/blogs",
+        icon: BookDown,
+        isActive: true,
+      },
       // {
       //   title: "Shop",
       //   url: "/user/shop/all-products",
