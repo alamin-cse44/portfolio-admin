@@ -81,7 +81,7 @@ const LoginFormContent = ({
       setIsLoading(false);
       if (res.success) {
         toast.success(res?.message);
-        router.push(redirectUrl || "/");
+        router.push("/profile");
       } else {
         toast.error(res?.message);
       }
