@@ -1,6 +1,5 @@
 "use server";
 
-import { IRentalRequest } from "@/types";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";

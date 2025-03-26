@@ -1,4 +1,3 @@
-import UpdateListingForm from '@/components/modules/listing/UpdateListingForm';
 import { getSingleSkill } from '@/services/SkillService';
 
 const SkillUpdatePage = async({
@@ -15,7 +14,7 @@ const SkillUpdatePage = async({
     console.log("skill data", skill?.data);
     return (
         <div>
-            <UpdateListingForm listing={skill?.data} />
+            <h1>Update Skill</h1>
         </div>
     );
 };
